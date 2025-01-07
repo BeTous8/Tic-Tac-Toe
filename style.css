@@ -4,13 +4,24 @@
     box-sizing: border-box;
 }
 
+.topic {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100px;
+    font-size: 2rem;
+    
+}
+
+
+
 .container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
     width: 300px;
     height: 300px;
     margin: auto;
-    margin-top: 100px;
+    /* margin-top: 50px; */
     gap: 2px;
 }
 
@@ -18,4 +29,5 @@
 .cell {
     height: 100px;
     font-size: 2rem;
+    background-color: rgb(237, 238, 238);
 }

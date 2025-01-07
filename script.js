@@ -56,10 +56,9 @@ function Cell() {
 
 
 function gameController(
-    playerOneName = 'player 1',
-    playerTwoName = 'player 2',
+    playerOneName = 'Parisa',
+    playerTwoName = 'Behnam',
 ) {
-
     const gameboard = Gameboard();
     const player = [
         {
@@ -84,6 +83,11 @@ function gameController(
         gameboard.printBoard();
         // console.log(`${getActivePlayer().name}'s turn.`);
       };
+    
+    const printScoreBoard = () => {
+        const billboard = document.querySelector('.topic');
+        billboard.textContent = currentPlayer.name
+    }
 
     const playRound = (row, column) => {
         // console.log(`the token is: ${getActivePlayer().token}`)
@@ -91,12 +95,15 @@ function gameController(
         // check for the winner or it there is no cell remains
         // gameIsOver();
 
-        switchPlayer();
+        
         printNewRound();
     }
 
     const checkWinner = () => {
         const board = gameboard.getBoard();
+        const billboard = document.querySelector('.topic');
+        
+        const result = document.querySelector('.result');
         for (let i = 0; i < board.length; i++) {
             if (
                 board[i][0].getValue() !== 0 &&
@@ -104,6 +111,10 @@ function gameController(
                 board[i][1].getValue() === board[i][2].getValue()
             ) {
                 console.log('Row match found!');
+                
+                
+                billboard.textContent = '';
+                billboard.textContent = `${currentPlayer.name} Wins`;
                 return true;
             }
 
@@ -113,6 +124,8 @@ function gameController(
                 board[1][i].getValue() === board[2][i].getValue()
             ) {
                 console.log('Row match found!');
+                billboard.textContent = '';
+                billboard.textContent = `${currentPlayer.name} Wins`;
                 return true;
             }
 
@@ -123,6 +136,8 @@ function gameController(
                 board[1][1].getValue() === board[2][2].getValue()
             ) {
                 console.log('Row match found!');
+                billboard.textContent = '';
+                billboard.textContent = `${currentPlayer.name} Wins`;
                 return true;
             }
 
@@ -132,9 +147,12 @@ function gameController(
                 board[1][1].getValue() === board[2][0].getValue()
             ) {
                 console.log('Row match found!');
+                billboard.textContent = '';
+                billboard.textContent = `${currentPlayer.name} Wins`;
                 return true;
             }
         }
+        switchPlayer();
         return false;
     };
     
@@ -152,7 +170,7 @@ function gameController(
         
         //checking for all winning 3-in-a-rows
 
-    return {playRound, switchPlayer, getActivePlayer, checkWinner};
+    return {playRound, switchPlayer, getActivePlayer, checkWinner,printScoreBoard};
 
 };
 
@@ -164,7 +182,7 @@ const displayGameboard = (() => {
     const cells = document.querySelectorAll('.cell')
     
     const controlRoom = gameController();
-
+    controlRoom.printScoreBoard();
     cells.forEach((cell, index) => {
         cell.addEventListener('click', ()=> {
             const token = controlRoom.getActivePlayer().token;
@@ -173,14 +191,32 @@ const displayGameboard = (() => {
             // console.log(`row is ${row}`);
             // console.log(`column is ${column}`)
             
-            cell.textContent = controlRoom.getActivePlayer().token;
-            controlRoom.playRound(row,column);
+            if (token === 'X') {
+                cell.innerHTML = '<img src="./cross.png" alt="X" width=60px>';
+            }
 
+            else if (token === 'O') {
+                cell.innerHTML = '<img src="./circle.png" alt="O" width=60px>';
+            }
+
+            
+                
+            
+            
+            
+            controlRoom.playRound(row,column);
+            if (!controlRoom.checkWinner()) {
+                controlRoom.printScoreBoard();
+                
+            };
+
+            
+            
             // cell.textContent = token;
             
 
             
-            controlRoom.checkWinner();
+            
         });
     });
   })(); 
