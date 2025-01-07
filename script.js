@@ -1,4 +1,4 @@
-const Gameboard = function () {
+function Gameboard() {
     const rows = 3;
     const columns = 3;
     const board = [];
@@ -14,10 +14,12 @@ const Gameboard = function () {
     const getBoard = () => board;
 
     const dropToken = (row, column, player) => {
-        // board.map((row) => row.map((cell) => cell.getValue() === 0).map((cell) => cell.addToken(player)));
-        const isEmpthySpot = board[row][column];
-        isEmpthySpot.getValue() === 0 ? isEmpthySpot.addToken(player) : console.log('not empty');
-    }
+        if (board[row][column].getValue() === 0) {
+            board[row][column].addToken(player); // Updating the board directly
+        } else {
+            console.log('Cell is not empty');
+        }
+    };
 
     const printBoard = () => {
         const boardCellValues = board.map((row) => row.map((cell) => cell.getValue()));
@@ -29,6 +31,8 @@ const Gameboard = function () {
         console.log(emptyCells.length); // Number of empty cells
         return emptyCells.length > 0;
       };
+
+    
       
 
     return {getBoard, dropToken, printBoard, checkEmptyCells};
@@ -56,7 +60,7 @@ function gameController(
     playerTwoName = 'player 2',
 ) {
 
-    const board = Gameboard();
+    const gameboard = Gameboard();
     const player = [
         {
             name : playerOneName,
@@ -77,12 +81,13 @@ function gameController(
     const getActivePlayer = () => currentPlayer;
 
     const printNewRound = () => {
-        board.printBoard();
-        console.log(`${getActivePlayer().name}'s turn.`);
+        gameboard.printBoard();
+        // console.log(`${getActivePlayer().name}'s turn.`);
       };
 
     const playRound = (row, column) => {
-        board.dropToken(row,column, getActivePlayer().token);
+        // console.log(`the token is: ${getActivePlayer().token}`)
+        gameboard.dropToken(row,column, getActivePlayer().token);
         // check for the winner or it there is no cell remains
         // gameIsOver();
 
@@ -90,44 +95,98 @@ function gameController(
         printNewRound();
     }
 
+    const checkWinner = () => {
+        const board = gameboard.getBoard();
+        for (let i = 0; i < board.length; i++) {
+            if (
+                board[i][0].getValue() !== 0 &&
+                board[i][0].getValue() === board[i][1].getValue() &&
+                board[i][1].getValue() === board[i][2].getValue()
+            ) {
+                console.log('Row match found!');
+                return true;
+            }
+
+            if (
+                board[0][i].getValue() !== 0 &&
+                board[0][i].getValue() === board[1][i].getValue() &&
+                board[1][i].getValue() === board[2][i].getValue()
+            ) {
+                console.log('Row match found!');
+                return true;
+            }
+
+
+            if (
+                board[0][0].getValue() !== 0 &&
+                board[0][0].getValue() === board[1][1].getValue() &&
+                board[1][1].getValue() === board[2][2].getValue()
+            ) {
+                console.log('Row match found!');
+                return true;
+            }
+
+            if (
+                board[0][2].getValue() !== 0 &&
+                board[0][2].getValue() === board[1][1].getValue() &&
+                board[1][1].getValue() === board[2][0].getValue()
+            ) {
+                console.log('Row match found!');
+                return true;
+            }
+        }
+        return false;
+    };
+    
+
     
     // we are going to remove while and put addevent listener later
     const gameIsOver = () => {
-        if (board.checkEmptyCells()) {
-            }
+        // use for loop to loop through and find the x or o in a row, column, or diagnol
+
+
+
+        // if (board.checkEmptyCells()) {
+        //     }
         }  
         
         //checking for all winning 3-in-a-rows
 
-    return {playRound, switchPlayer, getActivePlayer};
+    return {playRound, switchPlayer, getActivePlayer, checkWinner};
 
 };
 
-
-const game = gameController();
-const instance1 = game.playRound(0, 0);
-const instance2 = game.playRound(1, 1);
-const instance3 = game.playRound(1, 0);
-const instance4 = game.playRound(1, 2);
-const instance5 = game.playRound(2, 0);
-
-
 // console.log(instance1)
 
-// const displayGameboard = (function() {
-//     // Code to be executed
-//   })(); 
+const displayGameboard = (() => {
+    // Code to be executed
+    const container = document.querySelector('.container')
+    const cells = document.querySelectorAll('.cell')
+    
+    const controlRoom = gameController();
+
+    cells.forEach((cell, index) => {
+        cell.addEventListener('click', ()=> {
+            const token = controlRoom.getActivePlayer().token;
+            const row = Math.floor(index / 3) ;
+            const column = index % 3;
+            // console.log(`row is ${row}`);
+            // console.log(`column is ${column}`)
+            
+            cell.textContent = controlRoom.getActivePlayer().token;
+            controlRoom.playRound(row,column);
+
+            // cell.textContent = token;
+            
+
+            
+            controlRoom.checkWinner();
+        });
+    });
+  })(); 
 
 
 
-
-// const game = Gameboard();
-// const row = prompt("select row: ");
-// const column = prompt("select column: ");
-// game.dropToken(row,column,"X");
-// game.dropToken(2,2,"O");
-// game.dropToken(2,2,"O");
-// game.printBoard();
 
 
 
