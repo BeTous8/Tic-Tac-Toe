@@ -55,12 +55,20 @@ function Cell() {
 
 
 
-function gameController(
-    playerOneName = 'Parisa',
-    playerTwoName = 'Behnam',
-) {
-    const gameboard = Gameboard();
-    const player = [
+function gameController() {
+
+    const form = document.querySelector('#playerForm');
+
+    let player = [];
+    let currentPlayer;
+
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const playerOneName = document.querySelector('#player1').value;
+        const playerTwoName = document.querySelector('#player2').value;
+
+    player = [
         {
             name : playerOneName,
             token : "X"
@@ -71,7 +79,15 @@ function gameController(
         }
     ]
 
-    let currentPlayer = player[0];
+        currentPlayer = player[0];
+        printScoreBoard();
+        // disabling the input field after the game is started
+        document.querySelector('#player1').setAttribute('disabled', true);
+        document.querySelector('#player2').setAttribute('disabled', true);
+
+    });
+
+    const gameboard = Gameboard();
 
     const switchPlayer = () => {
         currentPlayer = currentPlayer === player[0] ? player[1] : player[0];
@@ -86,7 +102,7 @@ function gameController(
     
     const printScoreBoard = () => {
         const billboard = document.querySelector('.topic');
-        billboard.textContent = currentPlayer.name
+        billboard.textContent = `${currentPlayer.name}'s turn` 
     }
 
     const playRound = (row, column) => {
@@ -102,6 +118,7 @@ function gameController(
     const checkWinner = () => {
         const board = gameboard.getBoard();
         const billboard = document.querySelector('.topic');
+        const cells = document.querySelectorAll('.cell');
         
         const result = document.querySelector('.result');
         for (let i = 0; i < board.length; i++) {
@@ -169,7 +186,7 @@ function gameController(
         }  
         
         //checking for all winning 3-in-a-rows
-
+    
     return {playRound, switchPlayer, getActivePlayer, checkWinner,printScoreBoard};
 
 };
@@ -178,11 +195,12 @@ function gameController(
 
 const displayGameboard = (() => {
     // Code to be executed
-    const container = document.querySelector('.container')
-    const cells = document.querySelectorAll('.cell')
+    const container = document.querySelector('.container');
+    const cells = document.querySelectorAll('.cell');
+    const billboard = document.querySelector('.topic');
     
     const controlRoom = gameController();
-    controlRoom.printScoreBoard();
+    // controlRoom.printScoreBoard();
     cells.forEach((cell, index) => {
         cell.addEventListener('click', ()=> {
             const token = controlRoom.getActivePlayer().token;
@@ -199,16 +217,22 @@ const displayGameboard = (() => {
                 cell.innerHTML = '<img src="./circle.png" alt="O" width=60px>';
             }
 
-            
-                
-            
-            
-            
             controlRoom.playRound(row,column);
             if (!controlRoom.checkWinner()) {
                 controlRoom.printScoreBoard();
                 
+            }
+            else {
+                cells.forEach(cell => {
+                    cell.style.pointerEvents = 'none'; // Disables clicking
+                });
             };
+
+            cell.style.pointerEvents = 'none';
+
+            // if (!checkEmptyCells) {
+            //     billboard.textContent = "The Game is Draw";   
+            // }
 
             
             
