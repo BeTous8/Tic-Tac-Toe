@@ -66,12 +66,17 @@ function Cell() {
 function gameController() {
 
     const form = document.querySelector('#playerForm');
+    const cells = document.querySelectorAll('.cell');
+    const reset = document.querySelector('.reset');
 
     let player = [];
     let currentPlayer;
 
     form.addEventListener('submit', (event) => {
         event.preventDefault();
+        cells.forEach(cell => {
+            cell.style.pointerEvents = 'auto'; 
+        })
 
         const playerOneName = document.querySelector('#player1').value;
         const playerTwoName = document.querySelector('#player2').value;
@@ -96,6 +101,7 @@ function gameController() {
     });
 
     const gameboard = Gameboard();
+    const board = gameboard.getBoard();
 
     const switchPlayer = () => {
         currentPlayer = currentPlayer === player[0] ? player[1] : player[0];
@@ -124,7 +130,6 @@ function gameController() {
     }
 
     const checkWinner = () => {
-        const board = gameboard.getBoard();
         const billboard = document.querySelector('.topic');
         const cells = document.querySelectorAll('.cell');
         
@@ -181,23 +186,32 @@ function gameController() {
         return false;
     };
     
+    reset.addEventListener('click', () => {
+        gameboard.clearBoard();
 
-    
-    // we are going to remove while and put addevent listener later
-    const gameIsOver = () => {
-        // use for loop to loop through and find the x or o in a row, column, or diagnol
+        cells.forEach(cell => {
+            cell.textContent = '';
+            cell.style.pointerEvents = 'none'; 
+        })
 
+        const input1= document.querySelector('#player1');
+        const input2= document.querySelector('#player2');
+        input1.value = '';
+        input1.removeAttribute('disabled');
+        input2.value = '';
+        input2.removeAttribute('disabled');
 
-
-        // if (board.checkEmptyCells()) {
-        //     }
-        }  
-    
-    
         
-        //checking for all winning 3-in-a-rows
+
+
+
+        
+    });    
     
-    return {playRound, switchPlayer, getActivePlayer, checkWinner,printScoreBoard};
+    
+    
+    
+    return {playRound, switchPlayer, getActivePlayer, checkWinner,printScoreBoard, reset};
 
 };
 
@@ -211,7 +225,6 @@ const displayGameboard = (() => {
     const reset = document.querySelector('.reset');
     
     const gameboard = Gameboard();
-    const board = gameboard.getBoard();
     const controlRoom = gameController();
     // controlRoom.printScoreBoard();
     cells.forEach((cell, index) => {
@@ -248,26 +261,6 @@ const displayGameboard = (() => {
         
     });
 
-    reset.addEventListener('click', () => {
-        const input1= document.querySelector('#player1');
-        const input2= document.querySelector('#player2');
-        for (let i = 0; i < 3; i++) {
-            board[i] = []; //create rows inside 2D array
-            for (let j = 0; j < 3; j++) {
-                board[i].push(Cell());
-                cells.forEach(cell => {
-                    cell.textContent = '';
-                    input1.value = '';
-                    input1.removeAttribute('disabled')
-                    input2.value = '';
-                    input2.removeAttribute('disabled')
-                })
-                
-             }
-        }
-
-        console.log(gameboard.printBoard())
-        })
   })(); 
 
 
