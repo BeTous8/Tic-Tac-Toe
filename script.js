@@ -33,9 +33,17 @@ function Gameboard() {
       };
 
     
-      
+    const clearBoard = () => {
+        for (let i = 0; i < rows; i++) {
+            board[i] = []; //create rows inside 2D array
+            for (let j = 0; j < columns; j++) {
+                board[i].push(Cell());
+             }
+        }
+    
+    }
 
-    return {getBoard, dropToken, printBoard, checkEmptyCells};
+    return {getBoard, dropToken, printBoard, checkEmptyCells, clearBoard};
 };
 
 function Cell() {
@@ -184,6 +192,8 @@ function gameController() {
         // if (board.checkEmptyCells()) {
         //     }
         }  
+    
+    
         
         //checking for all winning 3-in-a-rows
     
@@ -198,7 +208,10 @@ const displayGameboard = (() => {
     const container = document.querySelector('.container');
     const cells = document.querySelectorAll('.cell');
     const billboard = document.querySelector('.topic');
+    const reset = document.querySelector('.reset');
     
+    const gameboard = Gameboard();
+    const board = gameboard.getBoard();
     const controlRoom = gameController();
     // controlRoom.printScoreBoard();
     cells.forEach((cell, index) => {
@@ -230,19 +243,31 @@ const displayGameboard = (() => {
 
             cell.style.pointerEvents = 'none';
 
-            // if (!checkEmptyCells) {
-            //     billboard.textContent = "The Game is Draw";   
-            // }
-
-            
-            
-            // cell.textContent = token;
-            
-
-            
-            
         });
+        
+        
     });
+
+    reset.addEventListener('click', () => {
+        const input1= document.querySelector('#player1');
+        const input2= document.querySelector('#player2');
+        for (let i = 0; i < 3; i++) {
+            board[i] = []; //create rows inside 2D array
+            for (let j = 0; j < 3; j++) {
+                board[i].push(Cell());
+                cells.forEach(cell => {
+                    cell.textContent = '';
+                    input1.value = '';
+                    input1.removeAttribute('disabled')
+                    input2.value = '';
+                    input2.removeAttribute('disabled')
+                })
+                
+             }
+        }
+
+        console.log(gameboard.printBoard())
+        })
   })(); 
 
 

@@ -56,3 +56,12 @@ form button {
 .cell:active {
     transform: scale(1.2);
 }
+
+.container .reset {
+    background-color: white;
+    border: white;
+    cursor: pointer;
+    grid-column: 2/3;
+    margin-top: 20px;
+    font-size: 1em;
+}
