@@ -201,6 +201,9 @@ function gameController() {
         input2.value = '';
         input2.removeAttribute('disabled');
 
+        const billboard = document.querySelector('.topic');
+        billboard.textContent = 'Enter player names to start the game'
+
         
 
 
