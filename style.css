@@ -5,7 +5,7 @@
 }
 
 body {
-    font-family: "Bangers", serif;
+    font-family: "Rubik Vinyl", serif;;
     font-weight: 400;
     font-style: normal;
 }
@@ -25,7 +25,8 @@ form {
 }
 
 form button {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+    font-family: "Bangers", serif;
     width: 80px;
     cursor: grab;
 }
@@ -35,7 +36,7 @@ form button {
     justify-content: space-around;
     align-items: center;
     height: 100px;
-    font-size: 2rem;
+    font-size: 1.5rem;
     
 }
 
