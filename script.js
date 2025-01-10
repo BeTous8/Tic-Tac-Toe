@@ -26,10 +26,10 @@ function Gameboard() {
         console.log(boardCellValues);
     };
 
-    const checkEmptyCells = () => {
+    const checkAllCellsFull = () => {
         const emptyCells = board.flatMap((row) => row.filter((cell) => cell.getValue() === 0));
         console.log(emptyCells.length); // Number of empty cells
-        return emptyCells.length > 0;
+        return emptyCells.length === 0;
       };
 
     
@@ -43,7 +43,7 @@ function Gameboard() {
     
     }
 
-    return {getBoard, dropToken, printBoard, checkEmptyCells, clearBoard};
+    return {getBoard, dropToken, printBoard, checkAllCellsFull, clearBoard};
 };
 
 function Cell() {
@@ -116,7 +116,10 @@ function gameController() {
     
     const printScoreBoard = () => {
         const billboard = document.querySelector('.topic');
-        billboard.textContent = `${currentPlayer.name}'s turn` 
+        billboard.textContent = `${currentPlayer.name}'s turn`;
+        if (gameboard.checkAllCellsFull()) {
+            billboard.textContent = "The Game is Draw..";
+        }
     }
 
     const playRound = (row, column) => {
@@ -182,6 +185,7 @@ function gameController() {
                 return true;
             }
         }
+
         switchPlayer();
         return false;
     };
@@ -214,7 +218,7 @@ function gameController() {
     
     
     
-    return {playRound, switchPlayer, getActivePlayer, checkWinner,printScoreBoard, reset};
+    return {playRound, switchPlayer, getActivePlayer, checkWinner,printScoreBoard};
 
 };
 
@@ -247,15 +251,22 @@ const displayGameboard = (() => {
             }
 
             controlRoom.playRound(row,column);
-            if (!controlRoom.checkWinner()) {
-                controlRoom.printScoreBoard();
+
+            if (controlRoom.checkWinner()) {
+                cells.forEach(cell => {
+                cell.style.pointerEvents = 'none'; // Disables clicking
+                });
+                
                 
             }
+
             else {
-                cells.forEach(cell => {
-                    cell.style.pointerEvents = 'none'; // Disables clicking
-                });
+                controlRoom.printScoreBoard();
             };
+
+            
+
+            
 
             cell.style.pointerEvents = 'none';
 
