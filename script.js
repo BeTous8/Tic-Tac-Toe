@@ -200,6 +200,7 @@ function gameController() {
     
     reset.addEventListener('click', () => {
         gameboard.clearBoard();
+        
 
         cells.forEach(cell => {
             cell.textContent = '';
@@ -208,6 +209,7 @@ function gameController() {
 
         switchPlayer();
         const billboard = document.querySelector('.topic');
+        billboard.classList.remove('winning-effect');
         billboard.textContent = `${currentPlayer.name}'s turn`;
         
     });    
@@ -216,6 +218,7 @@ function gameController() {
 
     newGame.addEventListener('click', () => {
         gameboard.clearBoard();
+        billboard.classList.remove('winning-effect');
 
         cells.forEach(cell => {
             cell.textContent = '';
@@ -232,6 +235,7 @@ function gameController() {
         input2.removeAttribute('disabled');
 
         const billboard = document.querySelector('.topic');
+        billboard.classList.remove('winning-effect');
         billboard.textContent = 'Enter player names to start the game'
         
     });    
