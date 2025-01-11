@@ -25,10 +25,20 @@ form {
 }
 
 form button {
-    font-size: 1.2rem;
     font-family: "Bangers", serif;
-    width: 80px;
+    font-size: 1em;
+    background-color: rgb(185, 231, 159);
+    padding: 10px 20px;
+    border: none;
+    outline: 1px white solid;
+    border-radius: 10px;
+    box-shadow: 1px 2px 4px rgba(1,1,1, .5);
     cursor: grab;
+    transition: transform .3s ease-in-out;
+}
+
+form button:hover {
+    transform: scaleX(1.5)
 }
 
 .topic {
@@ -64,11 +74,35 @@ form button {
     transform: scale(1.2);
 }
 
-.container .reset {
+.reStart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.reset {
     background-color: white;
     border: white;
     cursor: pointer;
     grid-column: 2/3;
     margin-top: 20px;
     font-size: 1em;
+}
+
+.newGame {
+    font-size: 1em;
+    background-color: rgb(159, 182, 231);
+    padding: 10px 20px;
+    border: none;
+    outline: 1px white solid;
+    border-radius: 10px;
+    box-shadow: 1px 2px 4px rgba(1,1,1, .5);
+    cursor: grab;
+}
+
+.winning-effect {
+    color: red;
 }

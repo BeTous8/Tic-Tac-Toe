@@ -2,7 +2,8 @@ function Gameboard() {
     const rows = 3;
     const columns = 3;
     const board = [];
-
+    
+    // Create 2D Array
       for (let i = 0; i < rows; i++) {
         board[i] = []; //create rows inside 2D array
         for (let j = 0; j < columns; j++) {
@@ -15,9 +16,7 @@ function Gameboard() {
 
     const dropToken = (row, column, player) => {
         if (board[row][column].getValue() === 0) {
-            board[row][column].addToken(player); // Updating the board directly
-        } else {
-            console.log('Cell is not empty');
+            board[row][column].addToken(player); 
         }
     };
 
@@ -28,14 +27,14 @@ function Gameboard() {
 
     const checkAllCellsFull = () => {
         const emptyCells = board.flatMap((row) => row.filter((cell) => cell.getValue() === 0));
-        console.log(emptyCells.length); // Number of empty cells
         return emptyCells.length === 0;
       };
 
     
     const clearBoard = () => {
+        //recreate the board with brand new cells
         for (let i = 0; i < rows; i++) {
-            board[i] = []; //create rows inside 2D array
+            board[i] = []; 
             for (let j = 0; j < columns; j++) {
                 board[i].push(Cell());
              }
@@ -66,8 +65,11 @@ function Cell() {
 function gameController() {
 
     const form = document.querySelector('#playerForm');
+    const start = document.querySelector('.start');
     const cells = document.querySelectorAll('.cell');
+    const billboard = document.querySelector('.topic');
     const reset = document.querySelector('.reset');
+    const newGame = document.querySelector('.newGame');
 
     let player = [];
     let currentPlayer;
@@ -125,16 +127,13 @@ function gameController() {
     const playRound = (row, column) => {
         // console.log(`the token is: ${getActivePlayer().token}`)
         gameboard.dropToken(row,column, getActivePlayer().token);
-        // check for the winner or it there is no cell remains
-        // gameIsOver();
+        
 
         
         printNewRound();
     }
 
     const checkWinner = () => {
-        const billboard = document.querySelector('.topic');
-        const cells = document.querySelectorAll('.cell');
         
         const result = document.querySelector('.result');
         for (let i = 0; i < board.length; i++) {
@@ -147,7 +146,7 @@ function gameController() {
                 
                 
                 billboard.textContent = '';
-                billboard.textContent = `${currentPlayer.name} Wins`;
+                billboard.textContent = `${currentPlayer.name} has won!`;
                 return true;
             }
 
@@ -158,7 +157,7 @@ function gameController() {
             ) {
                 console.log('Row match found!');
                 billboard.textContent = '';
-                billboard.textContent = `${currentPlayer.name} Wins`;
+                billboard.textContent = `${currentPlayer.name} has won!`;
                 return true;
             }
 
@@ -170,7 +169,7 @@ function gameController() {
             ) {
                 console.log('Row match found!');
                 billboard.textContent = '';
-                billboard.textContent = `${currentPlayer.name} Wins`;
+                billboard.textContent = `${currentPlayer.name} has won!`;
                 return true;
             }
 
@@ -181,7 +180,7 @@ function gameController() {
             ) {
                 console.log('Row match found!');
                 billboard.textContent = '';
-                billboard.textContent = `${currentPlayer.name} Wins`;
+                billboard.textContent = `${currentPlayer.name} has won!`;
                 return true;
             }
         }
@@ -189,14 +188,41 @@ function gameController() {
         switchPlayer();
         return false;
     };
+
+    const winnerAnimation = () => {        
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 },
+        });
+        billboard.classList.add('winning-effect');
+    }
     
     reset.addEventListener('click', () => {
         gameboard.clearBoard();
 
         cells.forEach(cell => {
             cell.textContent = '';
+            cell.style.pointerEvents = 'auto';
+        })
+
+        switchPlayer();
+        const billboard = document.querySelector('.topic');
+        billboard.textContent = `${currentPlayer.name}'s turn`;
+        
+    });    
+    
+
+
+    newGame.addEventListener('click', () => {
+        gameboard.clearBoard();
+
+        cells.forEach(cell => {
+            cell.textContent = '';
             cell.style.pointerEvents = 'none'; 
         })
+
+        start.style.pointerEvents = 'auto';
 
         const input1= document.querySelector('#player1');
         const input2= document.querySelector('#player2');
@@ -207,31 +233,25 @@ function gameController() {
 
         const billboard = document.querySelector('.topic');
         billboard.textContent = 'Enter player names to start the game'
-
-        
-
-
-
         
     });    
     
     
     
     
-    return {playRound, switchPlayer, getActivePlayer, checkWinner,printScoreBoard};
+    return {playRound, switchPlayer, getActivePlayer, checkWinner,printScoreBoard, winnerAnimation};
 
 };
 
 // console.log(instance1)
 
 const displayGameboard = (() => {
-    // Code to be executed
-    const container = document.querySelector('.container');
-    const cells = document.querySelectorAll('.cell');
-    const billboard = document.querySelector('.topic');
-    const reset = document.querySelector('.reset');
     
-    const gameboard = Gameboard();
+    const cells = document.querySelectorAll('.cell');
+    const start = document.querySelector('.start');
+
+    
+    
     const controlRoom = gameController();
     // controlRoom.printScoreBoard();
     cells.forEach((cell, index) => {
@@ -256,20 +276,16 @@ const displayGameboard = (() => {
                 cells.forEach(cell => {
                 cell.style.pointerEvents = 'none'; // Disables clicking
                 });
+                start.style.pointerEvents = 'none';
+                controlRoom.winnerAnimation();
+
                 
                 
             }
-
             else {
                 controlRoom.printScoreBoard();
             };
-
-            
-
-            
-
             cell.style.pointerEvents = 'none';
-
         });
         
         
