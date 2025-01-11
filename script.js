@@ -218,7 +218,6 @@ function gameController() {
 
     newGame.addEventListener('click', () => {
         gameboard.clearBoard();
-        billboard.classList.remove('winning-effect');
 
         cells.forEach(cell => {
             cell.textContent = '';

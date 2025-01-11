@@ -24,16 +24,19 @@ form {
 .players {
     display: flex;
     gap: 20px;
+    font-size: .7em;
     
 }
 
 .players input {
     font-family: "Sriracha", serif;
-    font-size: 1em;
+    font-size: .6em;
     width: 220px;
 }
 
-form button {
+form button,
+.newGame,
+.reset {
     font-family: "Bangers", serif;
     font-size: 1em;
     background-color: rgb(185, 231, 159);
@@ -56,7 +59,7 @@ form button:hover {
     align-items: center;
     height: 100px;
     font-size: 1.5rem;
-    color: rgb(184, 153, 153);
+    color: rgb(255, 255, 255);
     
 }
 
@@ -90,14 +93,14 @@ form button:hover {
 
 .reStart {
     display: flex;
-    flex-direction: column;
+    margin-top: 60px;
     align-items: center;
     justify-content: center;
-    gap: 30px;
-    margin-top: 20px;
+    gap: 40px;
+    
 }
 
-.reset {
+/* .reset {
     color: white;
     background-color: rgb(0, 0, 0);
     border: white;
@@ -106,26 +109,15 @@ form button:hover {
     margin-top: 20px;
     font-size: 1em;
     font-family: "Sriracha", serif;
-}
+} */
 
-.newGame {
-    font-size: 1em;
-    color: white;
-    background-color: rgb(64, 109, 207);
-    padding: 10px 20px;
-    border: none;
-    outline: 1px rgb(241, 241, 241) solid;
-    border-radius: 10px;
-    box-shadow: 1px 2px 10px rgb(255, 255, 255);
-    cursor: grab;
-    font-family: "Sriracha", serif;
-    transition: .3s ease-in-out;
-}
 
-.newGame:hover {
+
+.newGame:hover,
+.reset:hover {
     transform: scale(1.1);
 }
 
 .winning-effect {
-    color: red;
+    color: rgb(43, 255, 0);
 }
