@@ -54,8 +54,9 @@ form button,
     color: white;
 }
 
-form button:hover {
-    transform: scaleX(1.5)
+
+button.start {
+    animation: pulse 1s infinite ease-in-out;
 }
 
 .topic {
@@ -129,4 +130,14 @@ form button:hover {
 
 .winning-effect {
     color: rgb(43, 255, 0);
+}
+
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scaleX(1.2);
+    }
 }

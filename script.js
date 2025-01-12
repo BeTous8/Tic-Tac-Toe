@@ -76,6 +76,7 @@ function gameController() {
 
     form.addEventListener('submit', (event) => {
         event.preventDefault();
+        start.style.animation = 'none';
         cells.forEach(cell => {
             cell.style.pointerEvents = 'auto'; 
         })
@@ -217,13 +218,15 @@ function gameController() {
 
 
     newGame.addEventListener('click', () => {
+        
         gameboard.clearBoard();
 
         cells.forEach(cell => {
             cell.textContent = '';
             cell.style.pointerEvents = 'none'; 
         })
-
+        
+        start.style.animation = '';
         start.style.pointerEvents = 'auto';
 
         const input1= document.querySelector('#player1');
@@ -252,10 +255,12 @@ const displayGameboard = (() => {
     
     const cells = document.querySelectorAll('.cell');
     const start = document.querySelector('.start');
+    const billboard = document.querySelector('.topic');
 
-    
-    
     const controlRoom = gameController();
+
+    billboard.textContent = 'Enter player names to start the game'
+
     // controlRoom.printScoreBoard();
     cells.forEach((cell, index) => {
         cell.addEventListener('click', ()=> {
