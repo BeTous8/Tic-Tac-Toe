@@ -1,3 +1,10 @@
+@media screen and (min-width: 1024px) {
+    .cell:hover {
+        background-color: rgb(193, 206, 190);
+    }
+}
+
+
 * {
     margin: 0;
     padding: 0;
@@ -93,9 +100,7 @@ button.start {
     box-shadow: 1px 2px 10px rgb(255, 255, 255);
 }
 
-.cell:hover {
-    background-color: rgb(193, 206, 190);
-}
+
 
 .cell:active {
     transform: scale(1.2);
